@@ -121,8 +121,8 @@ Architecture: any
 Depends: kdepim-runtime, ${misc:Depends}, ${shlibs:Depends}
 Recommends: accountwizard, akregator, kaddressbook, kmail, knotes, korganizer
 Suggests: gnokii
-Breaks: libkf5messageviewer5 (<= 4:16.04)
-Replaces: libkf5messageviewer5 (<= 4:16.04)
+Breaks: libkf5messageviewer5 (<= 4:16.04), kdepim-doc
+Replaces: libkf5messageviewer5 (<= 4:16.04), kdepim-doc
 Homepage: http://kontact.kde.org/
 Description: integrated application for personal information management
  Kontact is the integrated solution to your personal information management
