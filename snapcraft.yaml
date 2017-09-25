@@ -33,7 +33,7 @@ parts:
         plugin: cmake
         build-packages:
         - libassuan-dev
-        - libgpgme-dev
+        - libgpgme11-dev
         - libgrantlee5-dev
         - libkf5akonadi-dev
         - libkf5akonadimime-dev
