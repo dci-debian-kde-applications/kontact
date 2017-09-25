@@ -131,7 +131,6 @@ parts:
         - libkf5imap-dev
         - libkf5incidenceeditor-dev
         - libkf5kaddressbookgrantlee-dev
-        - libkf5kdelibs4support-dev
         - libkf5kdepimdbusinterfaces-dev
         - libkf5kdgantt2-dev
         - libkf5khtml-dev
