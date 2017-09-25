@@ -77,6 +77,7 @@ parts:
         - libkf5akonadi-dev
         - libkf5akonadisearch-dev
         - libkf5grantleetheme-dev
+        - libkf5iconthemes-dev
         - libkf5kaddressbookgrantlee-dev
         - libkf5kaddressbookimportexport-dev
         - libkf5kdepimdbusinterfaces-dev
