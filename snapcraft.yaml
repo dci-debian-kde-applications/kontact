@@ -194,7 +194,6 @@ parts:
         - libkf5calendarutils-dev
         - libkf5contacteditor-dev
         - libkf5followupreminder-dev
-        - libkf5kdelibs4support-dev
         - libkf5kontactinterface-dev
         - libkf5libkdepim-dev
         - libkf5mime-dev
