@@ -73,7 +73,7 @@ parts:
         - kde-frameworks-5-env
         plugin: cmake
         build-packages:
-        - libgpgmepp-dev
+        - libgpgmepp6-dev
         - libkf5akonadi-dev
         - libkf5akonadisearch-dev
         - libkf5grantleetheme-dev
@@ -105,7 +105,7 @@ parts:
         - libboost-dev
         - libboost-graph-dev
         - libgpgme11-dev
-        - libgpgmepp-dev
+        - libgpgmepp6-dev
         - libgrantlee5-dev
         - libkf5akonadi-dev
         - libkf5akonadicalendar-dev
