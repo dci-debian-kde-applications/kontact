@@ -1,10 +1,12 @@
 ---
 name: kontact
 version: 17.08.1
-summary: vocabulary trainer
+summary: integrated application for personal information management
 description: |-
- kontact is a utility to help train vocabulary when learning a foreign language.
- It is intended as a replacement for flash cards.
+ Kontact is the integrated solution to your personal information management
+ needs. It combines applications like KMail, KOrganizer and
+ KAddressBook into a single interface to provide easy access to mail,
+ scheduling, address book and other PIM functionality.
 confinement: strict
 grade: stable
 apps:
@@ -19,6 +21,8 @@ apps:
         - network-bind
         - unity7
         - pulseaudio
+        #build-environment:
+        #- XDG_DATA_DIR: $SNAPCRAFT_PART_INSTALL/usr/share
 plugs:
     kde-frameworks-5-plug:
         content: kde-frameworks-5-all
@@ -26,40 +30,950 @@ plugs:
         default-provider: kde-frameworks-5
         target: kf5
 parts:
-    akregator:
+    kde-frameworks-5-dev:
+        plugin: dump
+        prime:
+        - "-*"
+        #source: https://build.neon.kde.org/job/kde-frameworks-5-release_amd64.snap/lastSuccessfulBuild/artifact/kde-frameworks-5-dev_amd64.tar.xz
+        source: kde-frameworks-5-dev_amd64.tar.xz
+    kde-frameworks-5-env:
+        plugin: dump
+        prime:
+        - kf5-launch
+        - kf5
+        source: https://github.com/apachelogger/kf5-snap-env.git
+    kdiagram:
         after:
         - kde-frameworks-5-dev
         - kde-frameworks-5-env
         plugin: cmake
         build-packages:
+        - cmake
+        - g++
+        source: https://anongit.kde.org/kdiagram.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
+    prison:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kdiagram
+        plugin: cmake
+        build-packages:
+        - cmake
+        - libqrencode-dev
+        - libdmtx-dev
+        source: https://anongit.kde.org/prison.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
+    kcalcore:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - prison
+        plugin: cmake
+        build-packages:
+        - cmake
+        - bison
+        - g++
+        - gettext
+        - libical-dev
+        source: https://anongit.kde.org/kcalcore.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
+    gpgmepp:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kcalcore
+        plugin: cmake
+        build-packages:
+        - cmake
+        - libgpgme11-dev
+        - libgpg-error-dev
+        - libassuan-dev
+        source: https://anongit.kde.org/gpgmepp.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    networkmanager-qt:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - gpgmepp
+        plugin: cmake
+        build-packages:
+        - cmake
+        - network-manager-dev
+        - libnm-util-dev
+        - libnm-dev
+        source: https://anongit.kde.org/networkmanager-qt.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    akonadi:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kimap
+        plugin: cmake
+        build-packages:
+        - libboost-dev
+        - libsqlite3-dev
+        - libxml2-dev
+        - libxml2-utils
+        - libxslt1-dev
+        - shared-mime-info
+        - xsltproc
+        - libkf5networkmanagerqt-dev
+        - kdesignerplugin
+        - kgendesignerplugin
+        source: https://anongit.kde.org/akonadi.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
+        - "-DCMAKE_INSTALL_LIBDIR=lib"
+        - "-DDATABASE_BACKEND=SQLITE"
+    kmime:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - networkmanager-qt
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kmime.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    kimap:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kmime
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kimap.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"    
+    kcontacts:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kimap
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kcontacts.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    grantlee:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kcontacts
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://github.com/steveire/grantlee.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    grantleetheme:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - grantlee
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/grantleetheme.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    syntax-highlighting:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - grantleetheme
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/syntax-highlighting.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    kpimtextedit:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - syntax-highlighting
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kpimtextedit.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    ksmtp:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kpimtextedit
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/ksmtp.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    kidentitymanagement:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - ksmtp
+        plugin: cmake
+        build-packages:
+        - cmake
+        #- libqt5texttospeech5-dev
+        source: https://anongit.kde.org/kidentitymanagement.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    kcalutils:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kidentitymanagement
+        plugin: cmake
+        build-packages:
+        - cmake
+        - libxapian-dev
+        source: https://anongit.kde.org/kcalutils.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    kldap:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kcalutils
+        plugin: cmake
+        build-packages:
+        - libldap2-dev 
+        source: https://anongit.kde.org/kldap.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    kmbox:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kldap
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kmbox.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    kholidays:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kmbox
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kholidays.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    syndication:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kholidays
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/syndication.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    kdav:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - syndication
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kdav.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    kontactinterface:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kdav
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kontactinterface.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    libkgapi:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kontactinterface
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/libkgapi.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    libxsd:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - libkgapi
+        plugin: make
+        build-packages:
+        - cmake
+        - libxerces-c-dev
+        source: http://www.codesynthesis.com/download/xsd/4.0/xsd-4.0.0+dep.tar.bz2
+    ktnef:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - libxsd
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/ktnef.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    libkleo:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kdav
+        - gpgmepp
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/libkleo.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"   
+    kdelibs4support:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - libkleo
+        plugin: cmake
+        build-packages:
+        - cmake
+        - libany-uri-escape-perl
+        - libsm-dev
+        source: https://anongit.kde.org/kdelibs4support.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DCMAKE_VERBOSE_MAKEFILE=TRUE"
+    kalarmcal:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kdelibs4support
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kalarmcal.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    akonadi-mime:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kalarmcal
+        - akonadi
+        plugin: cmake
+        build-packages:
+        - cmake
+        - xsltproc
+        source: https://anongit.kde.org/akonadi-mime.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DCMAKE_VERBOSE_MAKEFILE=TRUE"
+    incidenceeditor:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - akonadi-mime
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/incidenceeditor.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
+    kmailtransport:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - incidenceeditor
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kmailtransport.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    akonadi-contacts:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kmailtransport
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/akonadi-contacts.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    akonadi-search:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - akonadi-contacts
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/akonadi-search.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    akonadi-notes:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - akonadi-search
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/akonadi-notes.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    kdepim-apps-libs:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - akonadi-notes
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kdepim-apps-libs.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    pimcommon:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kdepim-apps-libs
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/pimcommon.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    libgravatar:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - pimcommon
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/libgravatar.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    calendarsupport:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - libgravatar
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/calendarsupport.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    libkdepim:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - calendarsupport
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/libkdepim.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    eventviews:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - libkdepim
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/eventviews.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    mailimporter:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - eventviews
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/mailimporter.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    mailcommon:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - mailimporter
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/mailcommon.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    libksieve:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - mailcommon
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/libksieve.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    grantlee-editor:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - libksieve
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/grantlee-editor.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"    
+    kdepim-runtime:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - grantlee-editor
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kdepim-runtime.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    #libkolab:
+        #after:
+        #- kde-frameworks-5-dev
+        #- kde-frameworks-5-env
+        #- akonadi
+        #- libkolabxml
+        #plugin: cmake
+        #build-packages:
+        #- cmake
+        #source: https://git.kolab.org/diffusion/LK/libkolab.git
+        #configflags:
+        #- "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        #- "-DCMAKE_INSTALL_PREFIX=/usr"
+        #- "-DCMAKE_BUILD_TYPE=Release"
+        #- "-DENABLE_TESTING=OFF"
+        #- "-DBUILD_TESTING=OFF"
+        #- "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    #libkolabxml:
+        #after:
+        #- kde-frameworks-5-dev
+        #- kde-frameworks-5-env
+        #- akonadi
+        #plugin: cmake
+        #build-packages:
+        #- cmake
+        #- libxerces-c-dev
+        #source: https://git.kolab.org/diffusion/LK/libkolabxml.git
+        #configflags:
+        #- "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        #- "-DCMAKE_INSTALL_PREFIX=/usr"
+        #- "-DCMAKE_BUILD_TYPE=Release"
+        #- "-DENABLE_TESTING=OFF"
+        #- "-DBUILD_TESTING=OFF"
+        #- "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    kalarm:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kdepim-runtime
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kalarm.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    kblog:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kalarm
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/kblog.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    blogilo:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kblog
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/blogilo.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    akonadi-import-wizard:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - blogilo
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/akonadi-import-wizard.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    pim-data-exporter:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - akonadi-import-wizard
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/pim-data-exporter.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    pim-sieve-editor:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - pim-data-exporter
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/pim-sieve-editor.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+    mbox-importer:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - pim-sieve-editor
+        plugin: cmake
+        build-packages:
+        - cmake
+        source: https://anongit.kde.org/ktnef.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+    akonadi-calendar:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - mbox-importer
+        plugin: cmake
+        build-packages:
+        - libmysqlclient-dev
+        - dh-apparmor
+        - libboost-dev
+        - libsqlite3-dev
+        - libxml2-dev
+        - libxml2-utils
+        - libxslt1-dev
+        - shared-mime-info
+        - xsltproc
+        source: https://anongit.kde.org/akonadi-calendar.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
+    akregator:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - akonadi-calendar
+        plugin: cmake
+        build-packages:
         - libassuan-dev
         - libgpgme11-dev
-        - libgrantlee5-dev
-        - libkf5akonadi-dev
-        - libkf5akonadimime-dev
-        - libkf5akonadiserver-dev
-        - libkf5contacteditor-dev
-        - libkf5dnssd-dev
-        - libkf5grantleetheme-dev
-        - libkf5kdelibs4support-dev
-        - libkf5kontactinterface-dev
-        - libkf5libkdepim-dev
-        - libkf5libkleo-dev
-        - libkf5messagecomposer-dev
-        - libkf5messagecore-dev
-        - libkf5messagelist-dev
-        - libkf5messageviewer-dev
-        - libkf5mimetreeparser-dev
-        - libkf5pimcommon-dev
-        - libkf5pimtextedit-dev 
-        - libkf5templateparser-dev
         - libphonon4qt5-dev
         - libphonon4qt5experimental-dev
         - libpulse0
         - shared-mime-info
         - xsltproc
         - zlib1g-dev
-        source: https://download.kde.org/stable/applications/17.08.1/src/akregator-17.08.1.tar.xz
+        source: https://anongit.kde.org/akregator.git
         configflags:
         - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
         - "-DCMAKE_INSTALL_PREFIX=/usr"
@@ -71,23 +985,26 @@ parts:
         after:
         - kde-frameworks-5-dev
         - kde-frameworks-5-env
+        - akregator
         plugin: cmake
-        build-packages:
-        - libgpgmepp6-dev
-        - libkf5akonadi-dev
-        - libkf5akonadisearch-dev
-        - libkf5grantleetheme-dev
-        - libkf5iconthemes-dev
-        - libkf5kaddressbookgrantlee-dev
-        - libkf5kaddressbookimportexport-dev
-        - libkf5kdepimdbusinterfaces-dev
-        - libkf5kontactinterface-dev
-        - libkf5libkdepim-dev
-        - libkf5libkleo-dev 
-        - libkf5pimcommon-dev
-        - libkf5pimtextedit-dev
-        - libkf5imap-dev
-        source: https://download.kde.org/stable/applications/17.08.1/src/kaddressbook-17.08.1.tar.xz
+        source: https://anongit.kde.org/kaddressbook.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
+    messagelib:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - gpgme
+        - kaddressbook
+        plugin: cmake
+        build-packages:  
+        - kdoctools-dev
+        source: https://anongit.kde.org/messagelib.git
         configflags:
         - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
         - "-DCMAKE_INSTALL_PREFIX=/usr"
@@ -99,6 +1016,7 @@ parts:
         after:
         - kde-frameworks-5-dev
         - kde-frameworks-5-env
+        - messagelib
         plugin: cmake
         build-packages:
         - kross-dev
@@ -106,66 +1024,13 @@ parts:
         - libboost-dev
         - libboost-graph-dev
         - libgpgme11-dev
-        - libgpgmepp6-dev
-        - libgrantlee5-dev
-        - libkf5akonadi-dev
-        - libkf5akonadicalendar-dev
-        - libkf5akonadicontact-dev
-        - libkf5akonadimime-dev
-        - libkf5akonadinotes-dev
-        - libkf5akonadisearch-dev
-        - libkf5akonadiserver-dev
-        - libkf5alarmcalendar-dev
-        - libkf5blog-dev
-        - libkf5calendarcore-dev
-        - libkf5calendarsupport-dev
-        - libkf5calendarutils-dev
-        - libkf5contacteditor-dev
-        - libkf5contacts-dev
-        - libkf5eventviews-dev
-        - libkf5followupreminder-dev
-        - libkf5grantleetheme-dev
-        - libkf5gravatar-dev
-        - libkf5holidays-dev
-        - libkf5identitymanagement-dev
-        - libkf5imap-dev
-        - libkf5incidenceeditor-dev
-        - libkf5kaddressbookgrantlee-dev
-        - libkf5kdepimdbusinterfaces-dev
-        - libkf5kdgantt2-dev
-        - libkf5khtml-dev
-        - libkf5kontactinterface-dev
-        - libkf5ksieve-dev
-        - libkf5ldap-dev
-        - libkf5libkdepim-dev
-        - libkf5libkleo-dev
-        - libkf5mailcommon-dev
-        - libkf5mailimporter-dev
-        - libkf5mailtransport-dev
-        - libkf5mbox-dev
-        - libkf5messagecomposer-dev
-        - libkf5messagecore-dev
-        - libkf5messagelist-dev
-        - libkf5messageviewer-dev
-        - libkf5mime-dev
-        - libkf5mimetreeparser-dev
-        - libkf5pimcommon-dev
-        - libkf5pimtextedit-dev
-        - libkf5prison-dev
-        - libkf5sendlater-dev
-        - libkf5syndication-dev
-        - libkf5templateparser-dev
-        - libkf5tnef-dev
-        - libkf5webengineviewer-dev
-        - libkf5webkit-dev
-        - libkpimgapi-dev
         - libphonon4qt5-dev
         - libphonon4qt5experimental-dev
         - libx11-dev
         - shared-mime-info
         - xsltproc
         - zlib1g-dev
-        source: https://download.kde.org/stable/applications/17.08.1/src/kmail-17.08.1.tar.xz
+        source: https://anongit.kde.org/kmail.git
         configflags:
         - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
         - "-DCMAKE_INSTALL_PREFIX=/usr"
@@ -177,6 +1042,7 @@ parts:
         after:
         - kde-frameworks-5-dev
         - kde-frameworks-5-env
+        - kmail
         plugin: cmake
         build-packages:  
         - kross-dev
@@ -185,29 +1051,13 @@ parts:
         - libboost-graph-dev
         - libgpgme11-dev
         - libgrantlee5-dev
-        - libkf5akonadi-dev
-        - libkf5akonadinotes-dev
-        - libkf5akonadisearch-dev
-        - libkf5akonadiserver-dev
-        - libkf5calendarcore-dev
-        - libkf5calendarutils-dev
-        - libkf5contacteditor-dev
-        - libkf5followupreminder-dev
-        - libkf5kontactinterface-dev
-        - libkf5libkdepim-dev
-        - libkf5mime-dev
-        - libkf5mimetreeparser-dev
-        - libkf5pimcommon-dev
-        - libkf5pimtextedit-dev
-        - libkf5templateparser-dev
-        - libkf5webengineviewer-dev
         - libkf5webkit-dev
         - libphonon4qt5-dev
         - libphonon4qt5experimental-dev
         - shared-mime-info
         - xsltproc
         - zlib1g-dev
-        source: https://download.kde.org/stable/applications/17.08.1/src/knotes-17.08.1.tar.xz
+        source: https://anongit.kde.org/knotes.git
         configflags:
         - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
         - "-DCMAKE_INSTALL_PREFIX=/usr"
@@ -219,19 +1069,34 @@ parts:
         after:
         - kde-frameworks-5-dev
         - kde-frameworks-5-env
+        - knotes
         plugin: cmake
         build-packages:  
         - kross-dev
-        - libkf5akonadi-dev
-        - libkf5akonadimime-dev
-        - libkf5identitymanagement-dev
-        - libkf5imap-dev
-        - libkf5ldap-dev
-        - libkf5libkdepim-dev
-        - libkf5libkleo-dev
-        - libkf5mailtransport-dev
         - shared-mime-info
-        source: https://download.kde.org/stable/applications/17.08.1/src/kmail-account-wizard-17.08.1.tar.xz
+        source: https://anongit.kde.org/kmail-account-wizard.git
+        configflags:
+        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
+        - "-DCMAKE_INSTALL_PREFIX=/usr"
+        - "-DCMAKE_BUILD_TYPE=Release"
+        - "-DENABLE_TESTING=OFF"
+        - "-DBUILD_TESTING=OFF"
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"   
+    kontact:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - kmail-account-wizard
+        plugin: cmake
+        build-packages:
+        - kdoctools-dev
+        - libkf5kdelibs4support-dev
+        - kross-dev
+        - libboost-dev
+        - libsasl2-dev
+        - shared-mime-info
+        - xsltproc
+        source: https://anongit.kde.org/kontact.git
         configflags:
         - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
         - "-DCMAKE_INSTALL_PREFIX=/usr"
@@ -239,53 +1104,3 @@ parts:
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
         - "-DKDE_SKIP_TEST_SETTINGS=ON"    
-    kontact:
-        after:
-        - kde-frameworks-5-dev
-        - kde-frameworks-5-env
-        plugin: cmake
-        build-packages:
-        - kdoctools-dev
-        - kross-dev
-        - libboost-dev
-        - libkf5akonadi-dev
-        - libkf5akonadicalendar-dev
-        - libkf5akonadicontact-dev
-        - libkf5akonadimime-dev 
-        - libkf5akonadinotes-dev
-        - libkf5akonadiserver-dev
-        - libkf5alarmcalendar-dev
-        - libkf5calendarcore-dev
-        - libkf5calendarutils-dev
-        - libkf5contacteditor-dev
-        - libkf5contacts-dev
-        - libkf5grantleetheme-dev
-        - libkf5holidays-dev 
-        - libkf5identitymanagement-dev
-        - libkf5imap-dev
-        - libkf5kdelibs4support-dev
-        - libkf5kdepimdbusinterfaces-dev
-        - libkf5kontactinterface-dev
-        - libkf5ldap-dev
-        - libkf5libkdepim-dev
-        - libkf5libkleo-dev
-        - libkf5mailtransport-dev
-        - libkf5mbox-dev
-        - libkf5mime-dev
-        - libkf5pimcommon-dev
-        - libkf5pimtextedit-dev
-        - libkf5syndication-dev
-        - libkolab-dev
-        - libkpimgapi-dev
-        - libkpimkdav-dev
-        - libsasl2-dev
-        - shared-mime-info
-        - xsltproc
-        source: https://download.kde.org/stable/applications/17.08.1/src/kontact-17.08.1.tar.xz
-        configflags:
-        - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
-        - "-DCMAKE_INSTALL_PREFIX=/usr"
-        - "-DCMAKE_BUILD_TYPE=Release"
-        - "-DENABLE_TESTING=OFF"
-        - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"
