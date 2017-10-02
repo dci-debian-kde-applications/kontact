@@ -113,7 +113,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     networkmanager-qt:
         after:
         - kde-frameworks-5-dev
@@ -132,7 +132,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     akonadi:
         after:
         - kde-frameworks-5-dev
@@ -175,7 +175,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kimap:
         after:
         - kde-frameworks-5-dev
@@ -191,7 +191,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"    
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kcontacts:
         after:
         - kde-frameworks-5-dev
@@ -207,7 +207,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     grantlee:
         after:
         - kde-frameworks-5-dev
@@ -223,7 +223,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     grantleetheme:
         after:
         - kde-frameworks-5-dev
@@ -239,7 +239,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     syntax-highlighting:
         after:
         - kde-frameworks-5-dev
@@ -255,7 +255,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kpimtextedit:
         after:
         - kde-frameworks-5-dev
@@ -271,7 +271,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     ksmtp:
         after:
         - kde-frameworks-5-dev
@@ -287,7 +287,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kidentitymanagement:
         after:
         - kde-frameworks-5-dev
@@ -304,7 +304,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kcalutils:
         after:
         - kde-frameworks-5-dev
@@ -321,7 +321,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kldap:
         after:
         - kde-frameworks-5-dev
@@ -329,7 +329,7 @@ parts:
         - kcalutils
         plugin: cmake
         build-packages:
-        - libldap2-dev 
+        - libldap2-dev
         source: https://anongit.kde.org/kldap.git
         configflags:
         - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
@@ -337,7 +337,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kmbox:
         after:
         - kde-frameworks-5-dev
@@ -353,7 +353,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kholidays:
         after:
         - kde-frameworks-5-dev
@@ -369,7 +369,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     syndication:
         after:
         - kde-frameworks-5-dev
@@ -385,7 +385,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kdav:
         after:
         - kde-frameworks-5-dev
@@ -401,7 +401,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kontactinterface:
         after:
         - kde-frameworks-5-dev
@@ -417,7 +417,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     libkgapi:
         after:
         - kde-frameworks-5-dev
@@ -433,7 +433,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     libxsd:
         after:
         - kde-frameworks-5-dev
@@ -459,7 +459,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     libkleo:
         after:
         - kde-frameworks-5-dev
@@ -469,6 +469,8 @@ parts:
         plugin: cmake
         build-packages:
         - cmake
+        - libqgpgme7-dev
+        - libkf5gpgmepp-dev
         source: https://anongit.kde.org/libkleo.git
         configflags:
         - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
@@ -476,7 +478,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"   
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kdelibs4support:
         after:
         - kde-frameworks-5-dev
@@ -494,7 +496,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
         - "-DCMAKE_VERBOSE_MAKEFILE=TRUE"
     kalarmcal:
         after:
@@ -511,7 +513,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     akonadi-mime:
         after:
         - kde-frameworks-5-dev
@@ -529,7 +531,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
         - "-DCMAKE_VERBOSE_MAKEFILE=TRUE"
     incidenceeditor:
         after:
@@ -562,7 +564,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     akonadi-contacts:
         after:
         - kde-frameworks-5-dev
@@ -578,7 +580,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     akonadi-search:
         after:
         - kde-frameworks-5-dev
@@ -594,7 +596,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     akonadi-notes:
         after:
         - kde-frameworks-5-dev
@@ -610,7 +612,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kdepim-apps-libs:
         after:
         - kde-frameworks-5-dev
@@ -626,7 +628,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     pimcommon:
         after:
         - kde-frameworks-5-dev
@@ -642,7 +644,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     libgravatar:
         after:
         - kde-frameworks-5-dev
@@ -658,7 +660,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     calendarsupport:
         after:
         - kde-frameworks-5-dev
@@ -674,7 +676,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     libkdepim:
         after:
         - kde-frameworks-5-dev
@@ -690,7 +692,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     eventviews:
         after:
         - kde-frameworks-5-dev
@@ -706,7 +708,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     mailimporter:
         after:
         - kde-frameworks-5-dev
@@ -722,7 +724,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     mailcommon:
         after:
         - kde-frameworks-5-dev
@@ -738,7 +740,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     libksieve:
         after:
         - kde-frameworks-5-dev
@@ -754,7 +756,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     grantlee-editor:
         after:
         - kde-frameworks-5-dev
@@ -770,7 +772,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"    
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kdepim-runtime:
         after:
         - kde-frameworks-5-dev
@@ -786,7 +788,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     #libkolab:
         #after:
         #- kde-frameworks-5-dev
@@ -803,7 +805,7 @@ parts:
         #- "-DCMAKE_BUILD_TYPE=Release"
         #- "-DENABLE_TESTING=OFF"
         #- "-DBUILD_TESTING=OFF"
-        #- "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        #- "-DKDE_SKIP_TEST_SETTINGS=ON"
     #libkolabxml:
         #after:
         #- kde-frameworks-5-dev
@@ -820,7 +822,7 @@ parts:
         #- "-DCMAKE_BUILD_TYPE=Release"
         #- "-DENABLE_TESTING=OFF"
         #- "-DBUILD_TESTING=OFF"
-        #- "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        #- "-DKDE_SKIP_TEST_SETTINGS=ON"
     kalarm:
         after:
         - kde-frameworks-5-dev
@@ -836,7 +838,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kblog:
         after:
         - kde-frameworks-5-dev
@@ -852,7 +854,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     blogilo:
         after:
         - kde-frameworks-5-dev
@@ -868,7 +870,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     akonadi-import-wizard:
         after:
         - kde-frameworks-5-dev
@@ -884,7 +886,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     pim-data-exporter:
         after:
         - kde-frameworks-5-dev
@@ -900,7 +902,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     pim-sieve-editor:
         after:
         - kde-frameworks-5-dev
@@ -916,7 +918,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON" 
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     mbox-importer:
         after:
         - kde-frameworks-5-dev
@@ -932,7 +934,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"  
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     akonadi-calendar:
         after:
         - kde-frameworks-5-dev
@@ -1000,7 +1002,7 @@ parts:
         - kde-frameworks-5-env
         - kaddressbook
         plugin: cmake
-        build-packages:  
+        build-packages:
         - kdoctools-dev
         source: https://anongit.kde.org/messagelib.git
         configflags:
@@ -1042,7 +1044,7 @@ parts:
         - kde-frameworks-5-env
         - kmail
         plugin: cmake
-        build-packages:  
+        build-packages:
         - kross-dev
         - libassuan-dev
         - libboost-dev
@@ -1069,7 +1071,7 @@ parts:
         - kde-frameworks-5-env
         - knotes
         plugin: cmake
-        build-packages:  
+        build-packages:
         - kross-dev
         - shared-mime-info
         source: https://anongit.kde.org/kmail-account-wizard.git
@@ -1079,7 +1081,7 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"   
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
     kontact:
         after:
         - kde-frameworks-5-dev
@@ -1101,4 +1103,4 @@ parts:
         - "-DCMAKE_BUILD_TYPE=Release"
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"    
+        - "-DKDE_SKIP_TEST_SETTINGS=ON"
