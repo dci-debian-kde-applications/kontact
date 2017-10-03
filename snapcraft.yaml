@@ -470,6 +470,8 @@ parts:
         build-packages:
         - cmake
         - libgpgme11-dev
+        - libqgpgme7-dev
+        - libgpgmepp6-dev
         source: https://anongit.kde.org/libkleo.git
         configflags:
         - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
