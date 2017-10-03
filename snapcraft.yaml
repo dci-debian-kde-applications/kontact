@@ -469,8 +469,7 @@ parts:
         plugin: cmake
         build-packages:
         - cmake
-        - libqgpgme7-dev
-        - libkf5gpgmepp-dev
+        - libqgpgme11-dev
         source: https://anongit.kde.org/libkleo.git
         configflags:
         - "-DKDE_INSTALL_USE_QT_SYS_PATHS=ON"
