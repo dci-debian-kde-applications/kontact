@@ -460,18 +460,31 @@ parts:
         - "-DENABLE_TESTING=OFF"
         - "-DBUILD_TESTING=OFF"
         - "-DKDE_SKIP_TEST_SETTINGS=ON"
-    gpgme:
+    libgpg-error:
         after:
         - kde-frameworks-5-dev
         - kde-frameworks-5-env
         - ktnef
+        plugin: autotools
+        source: https://github.com/gpg/libgpg-error
+    libassuan:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - libgpg-error
+        plugin: autotools
+        source: https://github.com/gpg/libassuan
+    gpgme:
+        after:
+        - kde-frameworks-5-dev
+        - kde-frameworks-5-env
+        - libassuan
         plugin: autotools
         source: https://github.com/gpg/gpgme.git
     libkleo:
         after:
         - kde-frameworks-5-dev
         - kde-frameworks-5-env
-        - kdav
         - gpgme
         plugin: cmake
         build-packages:
