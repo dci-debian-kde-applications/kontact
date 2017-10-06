@@ -466,14 +466,14 @@ parts:
         - kde-frameworks-5-env
         - ktnef
         plugin: autotools
-        source: https://github.com/gpg/libgpg-error
+        source: https://github.com/gpg/libgpg-error.git
     libassuan:
         after:
         - kde-frameworks-5-dev
         - kde-frameworks-5-env
         - libgpg-error
         plugin: autotools
-        source: https://github.com/gpg/libassuan
+        source: https://github.com/gpg/libassuan.git
     gpgme:
         after:
         - kde-frameworks-5-dev
