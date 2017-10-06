@@ -466,6 +466,8 @@ parts:
         - kde-frameworks-5-env
         - ktnef
         plugin: autotools
+        build-packages:
+        - makeinfo
         source: https://github.com/gpg/libgpg-error.git
     libassuan:
         after:
