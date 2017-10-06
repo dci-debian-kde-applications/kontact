@@ -467,7 +467,7 @@ parts:
         - ktnef
         plugin: autotools
         build-packages:
-        - makeinfo
+        - texinfo
         source: https://github.com/gpg/libgpg-error.git
     libassuan:
         after:
