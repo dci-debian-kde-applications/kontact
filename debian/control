@@ -38,14 +38,10 @@ Architecture: any
 Depends: kdepim-runtime, libqt5webengine5, ${misc:Depends}, ${shlibs:Depends}
 Recommends: accountwizard, akregator, kaddressbook, kmail, knotes, korganizer
 Suggests: gnokii
-Breaks: kde-l10n-ast (<< 4:17.03.90-0~),
-        kde-l10n-eo (<< 4:17.03.90-0~),
-        kdepim-doc (<= 4:16.12.0),
+Breaks: kdepim-doc (<= 4:16.12.0),
         libkf5messageviewer5 (<= 4:16.04),
         ${kde-l10n:all},
-Replaces: kde-l10n-ast (<< 4:17.03.90-0~),
-          kde-l10n-eo (<< 4:17.03.90-0~),
-          kdepim-doc (<= 4:16.12.0),
+Replaces: kdepim-doc (<= 4:16.12.0),
           libkf5messageviewer5 (<= 4:16.04),
           ${kde-l10n:all},
 Homepage: http://kontact.kde.org/
